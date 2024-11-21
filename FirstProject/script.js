@@ -1,1 +1,2 @@
-console.log("Hello first page")
+import * as THREE from "three"
+console.log(THREE)
