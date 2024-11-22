@@ -21,6 +21,9 @@ const size =
     height : 600
 }
 
+//axis viewer gizmos
+const axisHelper = new THREE.AxesHelper()
+scene.add(axisHelper)
 
 //camera
 const cam = new THREE.PerspectiveCamera(60,size.width/size.height);

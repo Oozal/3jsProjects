@@ -1,4 +1,5 @@
 import * as THREE from "three"
+import { degToRad } from "three/src/math/MathUtils.js";
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -21,13 +22,18 @@ const size =
     height : 600
 }
 
+function DegreeToRad(deg)
+{
+    return((Math.PI/360.0) * deg)
+}
+
 //axis viewer gizmos
 const axisHelper = new THREE.AxesHelper()
 scene.add(axisHelper)
 
 //camera
-const cam = new THREE.PerspectiveCamera(60,size.width/size.height);
-cam.position.z = 3
+const cam = new THREE.PerspectiveCamera(45,size.width/size.height);
+cam.position.set(4,4,4)
 scene.add(cam)
 
 
@@ -36,5 +42,19 @@ const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
 
+
 renderer.setSize(size.width, size.height);
-renderer.render(scene,cam)
+const clock = new THREE.Clock()
+
+function tick()
+{
+    let elapsedTime = clock.getElapsedTime()
+    cam.lookAt(new THREE.Vector3(0,0,0))
+    mesh.position.x = Math.sin(elapsedTime * Math.PI) * 5
+    mesh.rotation.y = elapsedTime  * Math.PI;
+    renderer.render(scene,cam)
+
+    window.requestAnimationFrame(tick);
+    console.log(clock.getElapsedTime())
+}
+tick()
