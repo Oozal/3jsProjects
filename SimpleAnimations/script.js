@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import { degToRad } from "three/src/math/MathUtils.js";
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -37,6 +37,8 @@ cam.position.set(4,4,4)
 scene.add(cam)
 
 
+const controls = new OrbitControls(cam, canvas);
+controls.enableDamping = true;
 //renderer
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
@@ -52,6 +54,9 @@ function tick()
     cam.lookAt(new THREE.Vector3(0,0,0))
     mesh.position.x = Math.sin(elapsedTime * Math.PI) * 5
     mesh.rotation.y = elapsedTime  * Math.PI;
+
+    controls.update();
+
     renderer.render(scene,cam)
 
     window.requestAnimationFrame(tick);
