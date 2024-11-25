@@ -1,7 +1,10 @@
 import * as THREE from "three"
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import GUI from "lil-gui"
 
 const canvas = document.querySelector('canvas.webgl')
+
+const gui = new GUI();
 
 
 console.log(canvas)
@@ -14,6 +17,7 @@ const mat = new THREE.MeshBasicMaterial({
     color: 0xff0000
 })
 const mesh = new THREE.Mesh(geom,mat)
+gui.add(mesh.position,"y").min(-3).max(3).step(0.01).name('elevation');
 scene.add(mesh);
 
 const size = 
@@ -21,6 +25,15 @@ const size =
     width : 800,
     height : 600
 }
+
+const parameters = 
+{
+    movXamplitute : 1,
+    rotYamplitute : 1
+}
+
+gui.add(parameters,"movXamplitute").min(0).max(5).step(0.01)
+gui.add(parameters,"rotYamplitute").min(0).max(5).step(0.01)
 
 function DegreeToRad(deg)
 {
@@ -52,8 +65,8 @@ function tick()
 {
     let elapsedTime = clock.getElapsedTime()
     cam.lookAt(new THREE.Vector3(0,0,0))
-    mesh.position.x = Math.sin(elapsedTime * Math.PI) * 5
-    mesh.rotation.y = elapsedTime  * Math.PI;
+    mesh.position.x = Math.sin(elapsedTime * Math.PI) * 5 * parameters.movXamplitute
+    mesh.rotation.y = elapsedTime  * Math.PI * parameters.rotYamplitute
 
     controls.update();
 
