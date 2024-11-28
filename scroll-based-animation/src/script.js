@@ -68,6 +68,32 @@ const meshes = [mesh1,mesh2,mesh3]
 
 const directionalLight = new THREE.DirectionalLight(parameters.lightColor,2)
 scene.add(directionalLight)
+
+
+const particleGeom = new THREE.BufferGeometry()
+const particleNum = 5000
+const particlesPos = new Float32Array(500*3)
+const distanceMultiplier = 4
+
+for(let i = 0;i<particleNum;i++)
+{
+    particlesPos[i*3+0] = (Math.random()-0.5)*2 *distanceMultiplier
+    particlesPos[i*3+1] = objectDist - (Math.random()-0.5)*8 * objectDist
+    particlesPos[i*3+2] = (Math.random()-0.5)*2*distanceMultiplier
+}
+
+const particleMat = new THREE.PointsMaterial(
+    {
+        size : 0.05,
+        sizeAttenuation : true
+    }
+)
+
+particleGeom.setAttribute('position',new THREE.BufferAttribute(particlesPos,3));
+
+const particle = new THREE.Points(particleGeom,particleMat);
+scene.add(particle)
+
 /**
  * Sizes
  */
